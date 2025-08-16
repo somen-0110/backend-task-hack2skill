@@ -114,7 +114,7 @@ Express API with JWT authentication, user-based isolation, embedded tasks/subtas
   ```json
   {
     "task": {
-      Returns the new task created
+      "Returns the new task created"
     }
   }
   ```
@@ -132,7 +132,7 @@ Express API with JWT authentication, user-based isolation, embedded tasks/subtas
   ```json
   {
     "task": {
-      Return the updated task
+      "Return the updated task"
     }
   }
   ```
@@ -149,9 +149,7 @@ Express API with JWT authentication, user-based isolation, embedded tasks/subtas
 
   ```json
   {
-    "subtasks": [
-      Returns the array of subtasks
-    ]
+    "subtasks": ["Returns the array of subtasks"]
   }
   ```
 
