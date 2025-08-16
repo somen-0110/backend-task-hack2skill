@@ -5,13 +5,14 @@ Express API with JWT authentication, user-based isolation, embedded tasks/subtas
 ## Setup
 
 1. Create a `.env` and set variables. Variables to be set are:
+
    ```json
-   PORT: Enter the port number. Default value is 3000.
-   NODE_ENV: Set the node environment.
-   MONGO_URI: Enter your DB connection string.
-   JWT_SECRET: Generate a random string which signs and verifies the token.
-   JWT_EXPIRES_IN: Set the expiry for the token.
-   BCRYPT_SALT_ROUNDS: Enter the number of salt rounds for hashing the password.
+   "PORT": "Enter the port number. Default value is 3000."
+   "NODE_ENV": "Set the node environment."
+   "MONGO_URI": "Enter your DB connection string."
+   "JWT_SECRET": "Generate a random string which signs and verifies the token."
+   "JWT_EXPIRES_IN": "Set the expiry for the token."
+   "BCRYPT_SALT_ROUNDS": "Enter the number of salt rounds for hashing the password."
    ```
 
    - The default value for PORT is 3000.
@@ -77,7 +78,6 @@ Express API with JWT authentication, user-based isolation, embedded tasks/subtas
   {
     "token": "...",
     "user": { "id": "...", "name": "John Doe", "email": "johndoe@example.com" }
-
   }
   ```
 
@@ -114,7 +114,7 @@ Express API with JWT authentication, user-based isolation, embedded tasks/subtas
   ```json
   {
     "task": {
-      Returns the new task created
+      "Returns the new task created"
     }
   }
   ```
@@ -132,7 +132,7 @@ Express API with JWT authentication, user-based isolation, embedded tasks/subtas
   ```json
   {
     "task": {
-      Return the updated task
+      "Return the updated task"
     }
   }
   ```
@@ -149,9 +149,7 @@ Express API with JWT authentication, user-based isolation, embedded tasks/subtas
 
   ```json
   {
-    "subtasks": [
-      Returns the array of subtasks
-    ]
+    "subtasks": ["Returns the array of subtasks"]
   }
   ```
 
