@@ -5,7 +5,6 @@ Express API with JWT authentication, user-based isolation, embedded tasks/subtas
 ## Setup
 
 1. Create a `.env` and set variables. Variables to be set are:
-
    ```json
    PORT: Enter the port number. Default value is 3000.
    NODE_ENV: Set the node environment.
@@ -78,6 +77,7 @@ Express API with JWT authentication, user-based isolation, embedded tasks/subtas
   {
     "token": "...",
     "user": { "id": "...", "name": "John Doe", "email": "johndoe@example.com" }
+
   }
   ```
 
