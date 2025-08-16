@@ -4,7 +4,17 @@ Express API with JWT authentication, user-based isolation, embedded tasks/subtas
 
 ## Setup
 
-1. Copy `.env.example` to `.env` and set variables.
+1. Create a `.env` and set variables. Variables to be set are:
+
+   ```bash
+   PORT: <Enter Your Port Number Here. Default = 3000>
+   NODE_ENV=<Set the node environment. (Example: production, development)>
+   MONGO_URI=<Enter your DB URI (Example: mongodb://localhost:27017/tasks_db)>
+   JWT_SECRET=<Generate a random string for signing and verifying the jwt tokens>
+   JWT_EXPIRES_IN=<Set the expiry for the token. Default = 7d>
+   BCRYPT_SALT_ROUNDS=<Enter the number of salt rounds for hashing the password. Default = 10>
+   ```
+
 2. Install dependencies:
    ```bash
    npm install
@@ -21,7 +31,11 @@ Express API with JWT authentication, user-based isolation, embedded tasks/subtas
   Body:
 
   ```json
-  { "name": "Alice", "email": "alice@example.com", "password": "Password123!" }
+  {
+    "name": "Enter a name here",
+    "email": "name@example.com",
+    "password": "Password123!"
+  }
   ```
 
 - **Login:**  
@@ -29,7 +43,7 @@ Express API with JWT authentication, user-based isolation, embedded tasks/subtas
   Body:
 
   ```json
-  { "email": "alice@example.com", "password": "Password123!" }
+  { "email": "name@example.com", "password": "Password123!" }
   ```
 
   Response:
@@ -51,9 +65,7 @@ Express API with JWT authentication, user-based isolation, embedded tasks/subtas
 
   ```json
   {
-    "tasks": [
-      /* Task[] */
-    ]
+    "tasks": []
   }
   ```
 
@@ -65,7 +77,7 @@ Express API with JWT authentication, user-based isolation, embedded tasks/subtas
 
   ```json
   {
-    "subject": "Build API",
+    "subject": "Sample Task 1",
     "deadline": "2025-08-31T00:00:00.000Z",
     "status": "in_progress"
   }
@@ -76,7 +88,7 @@ Express API with JWT authentication, user-based isolation, embedded tasks/subtas
   ```json
   {
     "task": {
-      /* Task */
+      Returns the new task created
     }
   }
   ```
@@ -94,7 +106,7 @@ Express API with JWT authentication, user-based isolation, embedded tasks/subtas
   ```json
   {
     "task": {
-      /* Task */
+      Return the updated task
     }
   }
   ```
@@ -112,25 +124,25 @@ Express API with JWT authentication, user-based isolation, embedded tasks/subtas
   ```json
   {
     "subtasks": [
-      /* Subtask[] */
+      Returns the array of subtasks
     ]
   }
   ```
 
   (Non-deleted only.)
 
-- **Replace subtasks:**  
+- **Update subtasks:**  
   `PUT /tasks/:taskId/subtasks`  
   Body:
   ```json
   [
     {
-      "subject": "Design schema",
+      "subject": "SubTask 1",
       "deadline": "2025-08-20T00:00:00.000Z",
       "status": "done"
     },
     {
-      "subject": "Implement routes",
+      "subject": "SubTask 2",
       "deadline": "2025-08-25T00:00:00.000Z",
       "status": "in_progress"
     }
@@ -182,4 +194,3 @@ Express API with JWT authentication, user-based isolation, embedded tasks/subtas
 - All reads exclude `isDeleted: true`.
 - `PUT` on subtasks replaces only the non-deleted set; deleted subtasks are preserved.
 - Task update is blocked if the task is soft-deleted.
-- Consider adding indexes and validation as needed.
