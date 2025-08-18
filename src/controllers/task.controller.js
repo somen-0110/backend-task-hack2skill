@@ -2,8 +2,8 @@ const { validationResult } = require("express-validator");
 const mongoose = require("mongoose");
 const User = require("../models/User");
 
-// Helper to present only non-deleted tasks/subtasks
-function sanitizeUserTasks(user) {
+// filter only non-deleted tasks/subtasks
+function modifyUserTasks(user) {
   const tasks = (user.tasks || [])
     .filter((t) => !t.isDeleted)
     .map((t) => ({
@@ -29,7 +29,7 @@ function sanitizeUserTasks(user) {
 exports.listTasks = async (req, res) => {
   try {
     const user = await User.findById(req.user._id);
-    const tasks = sanitizeUserTasks(user);
+    const tasks = modifyUserTasks(user);
     res.json({ tasks });
   } catch (err) {
     res
@@ -62,7 +62,7 @@ exports.createTask = async (req, res) => {
       { new: true }
     );
 
-    const created = sanitizeUserTasks(updated).find((t) =>
+    const created = modifyUserTasks(updated).find((t) =>
       t._id.equals(newTask._id)
     );
     res.status(201).json({ task: created });
@@ -188,7 +188,7 @@ exports.listSubtasks = async (req, res) => {
   }
 };
 
-// PUT /tasks/:taskId/subtasks (replace all non-deleted subtasks)
+// PUT /tasks/:taskId/subtasks
 exports.putSubtasks = async (req, res) => {
   try {
     const errors = validationResult(req);
@@ -196,9 +196,8 @@ exports.putSubtasks = async (req, res) => {
       return res.status(400).json({ errors: errors.array() });
 
     const { taskId } = req.params;
-    const incoming = req.body; // full list of non-deleted subtasks
+    const incoming = req.body;
 
-    // Normalize and assign IDs if missing (only for non-deleted subtasks)
     const normalized = incoming.map((s) => ({
       _id: s._id
         ? new mongoose.Types.ObjectId(s._id)
@@ -224,7 +223,6 @@ exports.putSubtasks = async (req, res) => {
         .status(400)
         .json({ message: "Cannot modify subtasks of a deleted task" });
 
-    // Preserve previously deleted subtasks in DB; only replace the non-deleted set
     const deletedSubtasks = (task.subtasks || []).filter((st) => st.isDeleted);
     task.subtasks = [...normalized, ...deletedSubtasks];
 
